@@ -22,7 +22,8 @@
         }
 
         .slideshow-container {
-            max-width: 800px;
+            width: 100%;
+            max-width: 1280px;
             position: relative;
             background-color: white;
             border-radius: 10px;
@@ -33,7 +34,7 @@
         .slide {
             display: none;
             width: 100%;
-            height: 500px;
+            aspect-ratio: 16 / 9;
             background-color: #ddd;
             text-align: center;
             color: white;
@@ -136,6 +137,24 @@
             font-size: 18px;
             opacity: 0.9;
         }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            .slide {
+                font-size: 32px;
+            }
+
+            .slide-title {
+                font-size: 24px;
+            }
+
+            .slide-description {
+                font-size: 16px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -195,7 +214,7 @@
         }
 
         function showSlide(n) {
-            // 인덱스를 순환하���록 처리
+            // 인덱스를 순환하도록 처리
             if (n >= slides.length) {
                 currentSlideIndex = 0;
             } else if (n < 0) {
