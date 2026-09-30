@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .slideshow-container {
+            max-width: 800px;
+            position: relative;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            height: 500px;
+            background-color: #ddd;
+            text-align: center;
+            color: white;
+            font-size: 48px;
+            font-weight: bold;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.5s;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        /* 각 슬라이드의 배경색 */
+        .slide:nth-child(1) {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .slide:nth-child(2) {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .slide:nth-child(3) {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .slide:nth-child(4) {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* 이전/다음 버튼 */
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            margin-top: -22px;
+            padding: 16px;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.3s ease;
+            border-radius: 0;
+            user-select: none;
+            border: none;
+        }
+
+        .prev:hover, .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .prev {
+            left: 0;
+        }
+
+        .next {
+            right: 0;
+        }
+
+        /* 점 표시기 */
+        .dots-container {
+            text-align: center;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .dot {
+            cursor: pointer;
+            height: 12px;
+            width: 12px;
+            margin: 0 5px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .dot.active {
+            background-color: #717171;
+        }
+
+        .dot:hover {
+            background-color: #717171;
+        }
+
+        /* 제목 및 설명 */
+        .slide-title {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .slide-description {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="slideshow-container">
+        <div class="slide active">
+            <div>
+                <div class="slide-title">슬라이드 1</div>
+                <div class="slide-description">환영합니다!</div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div>
+                <div class="slide-title">슬라이드 2</div>
+                <div class="slide-description">이것은 두 번째 슬라이드입니다</div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div>
+                <div class="slide-title">슬라이드 3</div>
+                <div class="slide-description">세 번째 슬라이드에 오셨습니다</div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div>
+                <div class="slide-title">슬라이드 4</div>
+                <div class="slide-description">마지막 슬라이드입니다</div>
+            </div>
+        </div>
+
+        <!-- 이전/다음 버튼 -->
+        <button class="prev" onclick="changeSlide(-1)">❮</button>
+        <button class="next" onclick="changeSlide(1)">❯</button>
+    </div>
+
+    <!-- 점 표시기 -->
+    <div class="dots-container">
+        <span class="dot active" onclick="currentSlide(0)"></span>
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+        <span class="dot" onclick="currentSlide(3)"></span>
+    </div>
+
+    <script>
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+
+        function changeSlide(n) {
+            showSlide(currentSlideIndex += n);
+        }
+
+        function currentSlide(n) {
+            showSlide(currentSlideIndex = n);
+        }
+
+        function showSlide(n) {
+            // 인덱스를 순환하���록 처리
+            if (n >= slides.length) {
+                currentSlideIndex = 0;
+            } else if (n < 0) {
+                currentSlideIndex = slides.length - 1;
+            }
+
+            // 모든 슬라이드와 점을 비활성화
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+
+            // 현재 슬라이드와 점을 활성화
+            slides[currentSlideIndex].classList.add('active');
+            dots[currentSlideIndex].classList.add('active');
+        }
+
+        // 자동 슬라이드 (선택사항)
+        let autoSlideTimer;
+
+        function startAutoSlide() {
+            autoSlideTimer = setInterval(() => {
+                changeSlide(1);
+            }, 5000); // 5초마다 자동 전환
+        }
+
+        function stopAutoSlide() {
+            clearInterval(autoSlideTimer);
+        }
+
+        // 페이지 로드 시 자동 슬라이드 시작
+        // startAutoSlide();
+
+        // 마우스가 슬라이드쇼 위에 있을 때 자동 슬라이드 중지
+        document.querySelector('.slideshow-container').addEventListener('mouseenter', stopAutoSlide);
+        document.querySelector('.slideshow-container').addEventListener('mouseleave', startAutoSlide);
+    </script>
+</body>
+</html>
